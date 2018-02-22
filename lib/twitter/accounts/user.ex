@@ -3,6 +3,7 @@ defmodule Twitter.Accounts.User do
   import Ecto.Changeset
   alias Twitter.Accounts.User
   alias Twitter.Tweets.Post
+  alias Twitter.Accounts.Followers
   import Comeonin.Bcrypt
 
 
@@ -14,6 +15,7 @@ defmodule Twitter.Accounts.User do
     field :username, :string
     field :password, :string, virtual: true
     has_many :posts, Post
+    has_many :followers, Followers
 
     timestamps()
   end

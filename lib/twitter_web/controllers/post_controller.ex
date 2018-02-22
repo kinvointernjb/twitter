@@ -9,7 +9,7 @@ defmodule TwitterWeb.PostController do
 
   def index(conn, _params) do
     posts = Tweets.list_posts(conn.assigns.user)
-    render(conn, "index.json", posts: posts)
+    render(conn, "index_with_follower.json", posts: posts)
   end
 
   def home(conn, _params) do

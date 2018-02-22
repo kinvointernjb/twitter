@@ -16,6 +16,16 @@ defmodule TwitterWeb.PostView do
       content: post.content}
   end
 
+  def render("index_with_follower.json", %{posts: posts}) do
+    %{data: render_many(posts, PostView, "post_with_follower.json")}
+  end
+
+  def render("post_with_follower.json", %{post: post}) do
+    %{id: post.id,
+      content: post.content
+    }
+  end
+
   def render("index_with_user.json", %{posts: posts}) do
     %{data: render_many(posts, PostView, "post_with_user.json")}
   end

@@ -3,6 +3,7 @@ defmodule TwitterWeb.UserController do
 
   alias Twitter.Accounts
   alias Twitter.Accounts.User
+  alias Twitter.Accounts.Followers
   alias TwitterWeb.Services.AuthToken
   action_fallback TwitterWeb.FallbackController
 

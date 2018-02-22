@@ -5,7 +5,6 @@ defmodule Twitter.Accounts do
 
   import Ecto.Query, warn: false
   alias Twitter.Repo
-
   alias Twitter.Accounts.User
 
   @doc """
@@ -51,7 +50,7 @@ defmodule Twitter.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user_by_username!(username), do: Repo.get_by!(User, username: username) |> Repo.preload(:posts)
+  def get_user_by_username!(username), do: Repo.get_by!(User, username: username) |> Repo.preload([:posts, :followers])
 
   @doc """
   Creates a user.
@@ -118,5 +117,113 @@ defmodule Twitter.Accounts do
   """
   def change_user(%User{} = user) do
     User.changeset(user, %{})
+  end
+
+  alias Twitter.Accounts.Followers
+  import Ecto.Query, warn: false
+  alias Twitter.Accounts.Users
+  alias Twitter.Repo
+  @doc """
+  Returns the list of follower.
+
+  ## Examples
+
+      iex> list_follower()
+      [%Followers{}, ...]
+
+  """
+  def list_follower(user) do
+    Followers
+    |>  where([f], f.follower_id == ^user.id)
+    |>  select([f], count(f.follower_id == ^user.id))
+    |> Repo.all()
+  end
+
+  def list_following(user) do
+    Followers
+    |>  where([f], f.user_id == ^user.id)
+    |>  select([f], count(f.user_id == ^user.id))
+    |> Repo.all()
+  end
+
+  @doc """
+  Gets a single followers.
+
+  Raises `Ecto.NoResultsError` if the Followers does not exist.
+
+  ## Examples
+
+      iex> get_followers!(123)
+      %Followers{}
+
+      iex> get_followers!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_followers!(id), do: Repo.get!(Followers, id)
+
+  @doc """
+  Creates a followers.
+
+  ## Examples
+
+      iex> create_followers(%{field: value})
+      {:ok, %Followers{}}
+
+      iex> create_followers(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_followers(attrs \\ %{}, user) do
+    %Followers{user_id: user.id}
+    |> Followers.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a followers.
+
+  ## Examples
+
+      iex> update_followers(followers, %{field: new_value})
+      {:ok, %Followers{}}
+
+      iex> update_followers(followers, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_followers(%Followers{} = followers, attrs) do
+    followers
+    |> Followers.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a Followers.
+
+  ## Examples
+
+      iex> delete_followers(followers)
+      {:ok, %Followers{}}
+
+      iex> delete_followers(followers)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_followers(%Followers{} = followers) do
+    Repo.delete(followers)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking followers changes.
+
+  ## Examples
+
+      iex> change_followers(followers)
+      %Ecto.Changeset{source: %Followers{}}
+
+  """
+  def change_followers(%Followers{} = followers) do
+    Followers.changeset(followers, %{})
   end
 end
