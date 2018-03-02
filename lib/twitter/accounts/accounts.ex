@@ -6,6 +6,7 @@ defmodule Twitter.Accounts do
   import Ecto.Query, warn: false
   alias Twitter.Repo
   alias Twitter.Accounts.User
+  alias Twitter.Accounts.Followers
 
   @doc """
   Returns the list of users.
@@ -119,10 +120,6 @@ defmodule Twitter.Accounts do
     User.changeset(user, %{})
   end
 
-  alias Twitter.Accounts.Followers
-  import Ecto.Query, warn: false
-  alias Twitter.Accounts.Users
-  alias Twitter.Repo
   @doc """
   Returns the list of follower.
 
@@ -140,6 +137,8 @@ defmodule Twitter.Accounts do
   end
 
   def list_following(user) do
+    require IEx
+    IEx.pry()
     Followers
     |>  where([f], f.user_id == ^user.id)
     |>  select([f], count(f.user_id == ^user.id))

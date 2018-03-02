@@ -9,7 +9,8 @@ defmodule Twitter.Repo.Migrations.CreateFollower do
       timestamps()
     end
 
-    create index(:follower, [:user_id])
-    create index(:follower, [:follower_id])
+    # create index(:follower, [:user_id])
+    # create index(:follower, [:follower_id])
+    create unique_index(:follower, [:user_id, :follower_id])
   end
 end

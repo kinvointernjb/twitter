@@ -11,10 +11,18 @@ defmodule TwitterWeb.FollowersView do
   end
 
   def render("followers.json", %{followers: followers}) do
-    %{following: followers}
+    %{followers: followers}
   end
 
   def render("follow_id.json", %{followers: followers}) do
     %{id: followers.id}
+  end
+
+  def render("following_index.json", %{follower: follower}) do
+    %{data: render_many(follower, FollowersView, "following.json")}
+  end
+
+  def render("following.json", %{followers: followers}) do
+    %{following: followers}
   end
 end

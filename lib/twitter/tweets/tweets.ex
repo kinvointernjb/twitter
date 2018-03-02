@@ -7,7 +7,7 @@ defmodule Twitter.Tweets do
   alias Twitter.Repo
 
   alias Twitter.Tweets.Post
-
+  alias Twitter.Accounts.Followers
   @doc """
   Returns the list of posts.
 

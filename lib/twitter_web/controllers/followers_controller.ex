@@ -14,7 +14,7 @@ defmodule TwitterWeb.FollowersController do
 
   def get_following(conn, _params) do
     follower = Accounts.list_following(conn.assigns.user)
-    render(conn, "index.json", follower: follower)
+    render(conn, "following_index.json", follower: follower)
   end
 
   def create(conn, %{"followers" => followers_params}) do

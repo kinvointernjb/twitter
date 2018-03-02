@@ -6,6 +6,7 @@ defmodule Twitter.Tweets.Post do
 
   schema "posts" do
     field :content, :string
+    belongs_to :follower, Followers
     belongs_to :user, User
 
     timestamps()
